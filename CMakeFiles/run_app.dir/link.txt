@@ -1,0 +1,1 @@
+/usr/bin/clang++  -std=c++11 -Wall -std=c++11 -Wall -std=c++11 -Wall -std=c++11 -Wall -std=c++11 -Wall -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/run_app.dir/app/main.cpp.o CMakeFiles/run_app.dir/code/WorkTrack.cpp.o -o run_app
