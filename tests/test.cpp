@@ -121,6 +121,12 @@ TEST_F(test_RBT, TestnewNode) {
   add_points_to_grade(1);
 }
 
+TEST_F(test_RBT, TestInsert) {
+  RBT myRBT;
+  Node* node = new Node;
+
+}
+
 /*TEST_F(test_RBT, TestInsert) {
   // hand build four nodes
   Node* one (new Node());
