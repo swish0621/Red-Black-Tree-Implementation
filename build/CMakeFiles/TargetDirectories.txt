@@ -1,0 +1,5 @@
+/home/jovyan/WorkTrack/build/CMakeFiles/run_tests.dir
+/home/jovyan/WorkTrack/build/CMakeFiles/run_app.dir
+/home/jovyan/WorkTrack/build/CMakeFiles/test.dir
+/home/jovyan/WorkTrack/build/CMakeFiles/edit_cache.dir
+/home/jovyan/WorkTrack/build/CMakeFiles/rebuild_cache.dir
