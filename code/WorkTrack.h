@@ -57,7 +57,9 @@ class RBT {
 
     //vector<string> currentEmployees;
 
-    Node* root;   
+    Node* root = nullptr;   
+    
+    Node* getParent(Node* root, Node* node);
 
     bool setChild(Node* parent, string direction, Node* child);
 
@@ -68,6 +70,8 @@ class RBT {
     void rotateRight(Node* root, Node* node);
 
     void BSTinsert(Node* root, Node* node);
+
+    void BSTremove(Node* root, int job);
 
     void balance(Node* root, Node* node);
 

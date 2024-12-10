@@ -8,7 +8,8 @@ Node* RBT::getRoot(){
 }
 
 void RBT::setRoot(Node* node){
-  root = node;
+    node -> color = "BLACK";
+    root = node;
 }
 
 Node* RBT::newNode(){
@@ -18,7 +19,7 @@ Node* RBT::newNode(){
     node -> left = nullptr;
     node -> right = nullptr;
     node -> parent = nullptr;
-    node -> color = "";
+    node -> color = "RED";
     node -> job = nullptr;
     return node;
 }
@@ -85,8 +86,8 @@ void RBT::rotateLeft(Node* root, Node* node){
         replaceChild(node -> parent, node, node -> right);
     }
     else {
-        root = node -> right;
-        root -> parent = nullptr;
+        setRoot(node -> right);
+        getRoot() -> parent = nullptr;
     }
     setChild(node -> right, "LEFT", node);
     setChild(node, "RIGHT", rlChild);
@@ -98,8 +99,8 @@ void RBT::rotateRight(Node* root, Node* node){
         replaceChild(node -> parent, node, node -> left);
     }
     else {
-        root = node -> left;
-        root -> parent = nullptr;
+        setRoot(node -> left);
+        getRoot() -> parent = nullptr;
     }
     setChild(node -> left, "RIGHT", node);
     setChild(node, "LEFT", lrChild);
@@ -107,13 +108,12 @@ void RBT::rotateRight(Node* root, Node* node){
 
 void RBT::insert(Node* root, Node* node){
     BSTinsert(root, node);
-    node -> color = "RED";
     balance(root, node);
 }
 
 void RBT::BSTinsert(Node* root, Node* node){
     if (root == nullptr){
-        root = node;
+        setRoot(node);
     }
     else {
         Node* cursor = root;
@@ -138,6 +138,20 @@ void RBT::BSTinsert(Node* root, Node* node){
             }
         }
     }
+    node -> parent = getParent(root, node);
+}
+
+Node* RBT::getParent(Node* root, Node* node){
+    if (root == nullptr){
+      return root;
+    }
+    if (root -> left == node || root -> right == node){
+      return root;
+    }
+    if (node -> jobNumber < root -> jobNumber){
+      return getParent(root -> left, node);
+    }
+    return getParent(root -> right, node);
 }
 
 Node* RBT::getGrandpa(Node* node){
@@ -208,23 +222,89 @@ void RBT::remove(Node* root, int jobNumber){
 }
 
 void RBT::removeNode(Node* root, Node* node){
-    if (node -> left != nullptr && node -> right != nullptr){
+    if ((node -> left != nullptr) && (node -> right != nullptr)){
         Node* predecessor = getPredecessor(node);
-        int predecessorKey = predecessor -> jobNumber;
+        int num = predecessor -> jobNumber;
+        Job* job = predecessor -> job;
         removeNode(root, predecessor);
-        node -> jobNumber = predecessorKey;
+        node -> jobNumber = num;
+        node -> job = job;
         return;
     }
     if (node -> color == "BLACK"){
         prepare(root, node);
     }
-    remove(root, node -> jobNumber);
+    BSTremove(root, node -> jobNumber);
 
+}
+
+void RBT::BSTremove(Node* root, int job) {
+    Node* parent = nullptr;
+    Node* current = root;
+    while (current != nullptr){
+        if (current -> jobNumber == job){
+            if (current -> left == nullptr && current -> right == nullptr){
+                if (parent == nullptr){
+                    root = nullptr;
+                }
+                else if (parent -> left == current){
+                    parent -> left = nullptr;
+                }
+                else {
+                    parent -> right = nullptr;
+                }
+                return;
+            }
+            else if(current -> right == nullptr){
+                if (parent == nullptr){
+                    root = current -> left;
+                }
+                else if(parent -> left == current){
+                    parent -> left = current -> left;
+                }
+                else {
+                    parent -> right = current -> left;
+                }
+                return;
+            }
+            else if(current -> left == nullptr){
+                if (parent == nullptr){
+                    root = current -> right;
+                }
+                else if(parent -> left == current){
+                    parent -> left = current -> right;
+                }
+                else {
+                    parent -> right = current -> right;
+                }
+                return;
+            }
+            else {
+                Node* successor = current -> right;
+                while (successor -> left != nullptr){
+                    successor = successor -> left;
+                }
+                current -> jobNumber = successor -> jobNumber;
+                parent = current;
+                current = current -> right;
+                job = successor -> jobNumber;
+            }
+        }
+        else if (current -> jobNumber < job){
+            parent = current;
+            current = current -> right;
+        }
+        else {
+            parent = current;
+            current = current -> left;
+        }
+    }
+    return;
 }
 
 Node* RBT::getPredecessor(Node* node){
     node = node -> left;
-    while (node != nullptr){
+    while (node -> right != nullptr){
         node = node -> right;
     }
     return node;
@@ -235,7 +315,7 @@ Node* RBT::getSibling(Node* node){
         if (node == node -> parent -> left){
             return node -> parent -> right;
         }
-        return node -> parent -> right;
+        return node -> parent -> left;
     }
     return nullptr;
 }
@@ -255,10 +335,10 @@ bool RBT::nullOrBlack(Node* node){
 }
 
 bool RBT::bothChildrenBlack(Node* node){
-    if (node -> left != nullptr && node -> left -> color == "RED"){
+    if (node -> left != nullptr && (node -> left -> color == "RED")){
         return false;
     }
-    if (node -> right != nullptr && node -> right -> color == "RED"){
+    if (node -> right != nullptr && (node -> right -> color == "RED")){
         return false;
     }
     return true;
@@ -297,7 +377,7 @@ void RBT::prepare(Node* root, Node* node){
 }
 
 bool RBT::case1(Node* root, Node* node){
-    if (node -> color == "RED" || node -> parent == nullptr){
+    if ((node -> color == "RED") || node -> parent == nullptr){
         return true;
     }
     else {
@@ -321,7 +401,7 @@ bool RBT::case2(Node* root, Node* node, Node* sibling){
 }
 
 bool RBT::case3(Node* root, Node* node, Node* sibling){
-    if (node -> parent -> color == "BLACK" && bothChildrenBlack(sibling)){
+    if ((node -> parent -> color == "BLACK") && bothChildrenBlack(sibling)){
         sibling -> color = "RED";
         prepare(root, node -> parent);
         return true;
@@ -330,7 +410,7 @@ bool RBT::case3(Node* root, Node* node, Node* sibling){
 }
 
 bool RBT::case4(Node* root, Node* node, Node* sibling){
-    if (node -> parent -> color == "RED" && bothChildrenBlack(sibling)){
+    if ((node -> parent -> color == "RED") && bothChildrenBlack(sibling)){
         node -> parent -> color = "BLACK";
         sibling -> color = "RED";
         return true;
@@ -340,7 +420,7 @@ bool RBT::case4(Node* root, Node* node, Node* sibling){
 
 bool RBT::case5(Node* root, Node* node, Node* sibling){
     if (nonNullAndRed(sibling -> left) && nullOrBlack(sibling -> right)
-        && node == node -> parent -> left){
+        && (node == node -> parent -> left)){
         sibling -> color = "RED";
         sibling -> left -> color = "BLACK";
         rotateRight(root, sibling);
@@ -351,7 +431,7 @@ bool RBT::case5(Node* root, Node* node, Node* sibling){
 
 bool RBT::case6(Node* root, Node* node, Node* sibling){
     if (nullOrBlack(sibling -> left) && nonNullAndRed(sibling -> right) 
-        && node == node -> parent -> right){
+        && (node == node -> parent -> right)){
         sibling -> color = "RED";
         sibling -> right -> color = "BLACK";
         rotateLeft(root, sibling);

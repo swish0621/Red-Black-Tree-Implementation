@@ -20,7 +20,7 @@ file(GLOB USER_FILES_1
 
 
 file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
-"tests/test_*.cpp"
+"tests/test.cpp"
 )
 
 # Try to Find GTest
