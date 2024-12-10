@@ -13,80 +13,31 @@ using namespace std;
 
 class test_RBT : public ::testing::Test {
 protected:
-  // This function runs only once before any TEST_F function
-  static void SetUpTestCase() {
-    std::ofstream outgrade("./total_grade.txt");
-    if (outgrade.is_open()) {
-      outgrade.clear();
-      outgrade << (int)0;
-      outgrade.close();
-    }
-  }
+  static void SetUpTestCase() {}
 
-  // This function runs after all TEST_F functions have been executed
-  static void TearDownTestCase() {
-    std::ofstream outgrade("./total_grade.txt");
-    if (outgrade.is_open()) {
-      outgrade.clear();
-      outgrade << (int)(100 * total_grade / max_grade);
-      outgrade.close();
+  static void TearDownTestCase() {}
 
-      std::cout << "Total Grade is : " << (int)(100 * total_grade / max_grade)
-                << std::endl;
-    }
-  }
-
-  void add_points_to_grade(double points) {
-    if (!::testing::Test::HasFailure()) {
-      total_grade += points;
-    }
-  }
-
-  // this function runs before every TEST_F function
   void SetUp() override {}
 
-  // this function runs after ever TEST_F function
-  void TearDown() override {
-    std::ofstream outgrade("./total_grade.txt");
-    if (outgrade.is_open()) {
-      outgrade.clear();
-      outgrade << (int)(100 * total_grade / max_grade);
-      outgrade.close();
-    }
-  }
-
-  static double total_grade;
-  static double max_grade;
+  void TearDown() override {}
 };
-
-double test_RBT::total_grade = 0;
-double test_RBT::max_grade = 100;
 
 TEST_F(test_RBT, TestConstructor) {
   RBT myRBT;
   ASSERT_TRUE(myRBT.getRoot() == nullptr);
-  add_points_to_grade(1);
 }
 
 TEST_F(test_RBT, TestnewNode) {
   RBT myRBT;
   Node* node = myRBT.newNode();
   ASSERT_TRUE(node);
-  add_points_to_grade(1);
   ASSERT_EQ(nullptr, node->left);
-  add_points_to_grade(1);
   ASSERT_EQ(nullptr, node->right);
-  add_points_to_grade(1);
   ASSERT_EQ(nullptr, node->parent);
-  add_points_to_grade(1);
   ASSERT_TRUE(node -> jobNumber == 1);
-  add_points_to_grade(1);
   ASSERT_TRUE(node -> color == "RED");
-  add_points_to_grade(1);
   ASSERT_TRUE(node -> job == nullptr);
-  add_points_to_grade(1);
   ASSERT_TRUE(myRBT.jobCount == 2);
-  add_points_to_grade(1);
 }
 
 TEST_F(test_RBT, TestInsert) {
@@ -111,31 +62,18 @@ TEST_F(test_RBT, TestInsert) {
   myrbt.insert(myrbt.getRoot(), eight);
  
   ASSERT_TRUE(myrbt.getRoot() == four);
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> color) == "BLACK");
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> left) == two);
-  add_points_to_grade(1);
   ASSERT_TRUE((two -> color) == "RED");
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> left -> left) == one);
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> left -> right) == three);
-  add_points_to_grade(1);
   ASSERT_TRUE((one -> color) == "BLACK" && (three -> color) == "BLACK");
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> right) == six);
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> right -> left) == five);
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> right -> right) == seven);
-  add_points_to_grade(1);
   ASSERT_TRUE((myrbt.getRoot() -> right -> right -> right) == eight);
-  add_points_to_grade(1);
   ASSERT_TRUE((six -> color) == "RED" && (eight -> color) == "RED");
-  add_points_to_grade(1);
   ASSERT_TRUE((five -> color) == "BLACK" && (seven -> color) == "BLACK");
-  add_points_to_grade(1);
 }
 
 TEST_F(test_RBT, TestSearch){
