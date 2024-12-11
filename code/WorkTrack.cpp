@@ -25,11 +25,11 @@ Node* RBT::newNode(){
 }
 
 Node* RBT::newJob(Node* node, string customer, string month, string day, string year, 
-                 string employee, float cost, bool paid, float time){
+                 string employee, string cost, string paid, string time){
     Job* job(new Job);
     job -> customer = customer;
     lookup.insert(std::pair<string, int> (customer, node -> jobNumber));
-    job -> date[1] = month; job -> date[1] = day; job -> date[2] = year;
+    job -> date[0] = month; job -> date[1] = day; job -> date[2] = year;
     job -> employee = employee;
     job -> cost = cost;
     job -> paid = paid;
@@ -441,65 +441,90 @@ bool RBT::case6(Node* root, Node* node, Node* sibling){
 }
 
 void RBT::save(){
-    std::ofstream outputFile("data.txt");
-    if (outputFile.is_open()){ 
+    std::ofstream file("../data.txt", std::ios::trunc);
+    if (file.is_open()){ 
+        vector<vector<Node*> > structure;
+        if (root == nullptr){
+        return;
+        }
+        queue <Node*> queue;
+        queue.push(root);
+        while (queue.empty() != true){
+            int levelSize = queue.size();
+            vector<Node*>level;
+            for (int i = 0 ; i < levelSize ; i++){
+                Node* cursor = queue.front();
+                queue.pop();
+                level.push_back(cursor);
+                if (cursor -> left != nullptr){
+                queue.push(cursor -> left);
+                }
+                if (cursor -> right != nullptr){
+                    queue.push(cursor -> right);
+                }
+            }
+            structure.push_back(level);
+        }
+        for (int i = 0 ; i < structure.size() ; i++){
+            for (int j = 0 ; j < structure.at(i).size() ; j++){
+                file << nodeToString(structure.at(i).at(j)) << endl;
+            }
+        }
     }
     else { 
         cout << "ERROR";
     }
 }
 
-void RBT::load(){
-
+RBT RBT::load(RBT newrbt){
+    std::ifstream file("../data.txt");
+    vector<vector<string> >(data);
+    if (file.is_open()){
+        while (file){
+            string str;
+            if (!getline(file, str)){break;}
+            istringstream ss(str);
+            vector<string>(record);
+            while(ss){
+                string str;
+                if(!getline(ss, str, ',')){break;}
+                record.push_back(str);
+            }
+            data.push_back(record);
+        }
+        for (int i = 0 ; i < data.size() ; i++){
+            Node* node = newrbt.newNode();
+            node = newrbt.newJob(node, data.at(i).at(1), data.at(i).at(2), data.at(i).at(3),
+            data.at(i).at(4), data.at(i).at(5), data.at(i).at(6), data.at(i).at(7),
+            data.at(i).at(8)); 
+            node -> jobNumber = stoi(data.at(i).at(0)); 
+            newrbt.insert(newrbt.getRoot(), node);
+        }
+        newrbt.jobCount = data.size() + 1;
+    }
+    return newrbt;
 }
 
-string RBT::serialize(Node* root){
-    vector<vector<Node*> > structure;
-    string str = "";
-    if (root == nullptr){
-        return "";
+void clearSave(){
+    std::ofstream file("../data.txt", std::ios::trunc);
+    if (file.is_open()){
+        file.close();
     }
-    queue <Node*> queue;
-    queue.push(root);
-    while (queue.empty() != true){
-        int levelSize = queue.size();
-        vector<Node*>level;
-        for (int i = 0 ; i < levelSize ; i++){
-            Node* cursor = queue.front();
-            queue.pop();
-            level.push_back(cursor);
-            if (cursor -> left != nullptr){
-                queue.push(cursor -> left);
-            }
-            if (cursor -> right != nullptr){
-                queue.push(cursor -> right);
-            }
-        }
-        structure.push_back(level);
-    }
-    for (int i = 0 ; i < structure.size() ; i++){
-        for (int j = 0 ; j < structure.at(i).size() ; j++){
-            str += nodeToString(structure.at(i).at(j));
-        }
-        str += "@";
-    }
-    return str;
 }
 
 string RBT::nodeToString(Node* node){
-    if (node == nullptr){
-        return "#";
-    }
     string str = "";
+    if (node == nullptr){
+        return str + "#";
+    }
     str += to_string(node -> jobNumber) + ",";
-    str += node -> color + ",";
     str += node -> job -> customer + ",";
     str += node -> job -> date[0] + ",";
     str += node -> job -> date[1] + ",";
     str += node -> job -> date[2] + ",";
     str += node -> job -> employee + ",";
-    str += to_string(node -> job -> cost) + ",";
-    str += to_string(node -> job -> paid) + ",";
-    str += to_string(node -> job -> time) + ",";
-    return str + "!";
+    str += node -> job -> cost + ",";
+    str += node -> job -> paid + ",";
+    str += node -> job -> time + ",";
+    return str;
 }

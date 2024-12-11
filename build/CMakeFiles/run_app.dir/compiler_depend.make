@@ -221,7 +221,9 @@ CMakeFiles/run_app.dir/app/main.cpp.o: ../app/main.cpp \
   /usr/include/c++/11/bits/stl_deque.h \
   /usr/include/c++/11/bits/deque.tcc \
   /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/stl_queue.h
+  /usr/include/c++/11/bits/stl_queue.h \
+  /usr/include/c++/11/sstream \
+  /usr/include/c++/11/bits/sstream.tcc
 
 CMakeFiles/run_app.dir/code/WorkTrack.cpp.o: ../code/WorkTrack.cpp \
   /usr/include/stdc-predef.h \
@@ -443,10 +445,14 @@ CMakeFiles/run_app.dir/code/WorkTrack.cpp.o: ../code/WorkTrack.cpp \
   /usr/include/c++/11/bits/stl_deque.h \
   /usr/include/c++/11/bits/deque.tcc \
   /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/stl_queue.h
+  /usr/include/c++/11/bits/stl_queue.h \
+  /usr/include/c++/11/sstream \
+  /usr/include/c++/11/bits/sstream.tcc
 
 
 ../code/WorkTrack.cpp:
+
+/usr/include/c++/11/sstream:
 
 /usr/include/c++/11/bits/stl_heap.h:
 
@@ -853,6 +859,8 @@ CMakeFiles/run_app.dir/code/WorkTrack.cpp.o: ../code/WorkTrack.cpp \
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
 
 /usr/include/c++/11/cstdlib:
+
+/usr/include/c++/11/bits/sstream.tcc:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
 

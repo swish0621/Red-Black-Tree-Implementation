@@ -128,3 +128,95 @@ TEST_F(test_RBT, TestRemove){
   ASSERT_TRUE((myrbt.getRoot() -> right -> left -> jobNumber) == 5);
   ASSERT_TRUE((five -> color == "BLACK") && (eight -> color == "BLACK"));
 }
+
+TEST_F(test_RBT, TestNewJob){
+  RBT myrbt;
+  Node* one = myrbt.newNode();
+  one = myrbt.newJob(one, "customer", "month", "day", "year", "employee", "10.99", "true", "1.5");
+  ASSERT_TRUE(one -> job -> customer == "customer");
+  ASSERT_TRUE(one -> job -> date[0] == "month");
+  ASSERT_TRUE(one -> job -> date[1] == "day");
+  ASSERT_TRUE(one -> job -> date[2] == "year");
+  ASSERT_TRUE(one -> job -> employee == "employee");
+  ASSERT_TRUE(one -> job -> cost == "10.99");
+  ASSERT_TRUE(one -> job -> paid == "true");
+  ASSERT_TRUE(one -> job -> time == "1.5");
+
+  myrbt.insert(myrbt.getRoot(), one);
+  ASSERT_TRUE(myrbt.getRoot() -> job -> customer == "customer");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> date[0] == "month");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> date[1] == "day");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> date[2] == "year");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> employee == "employee");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> cost == "10.99");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> paid == "true");
+  ASSERT_TRUE(myrbt.getRoot() -> job -> time == "1.5");
+}
+
+TEST_F(test_RBT, TestSave){
+  RBT myrbt;
+  Node* one = myrbt.newNode();
+  one = myrbt.newJob(one, "1", "1", "1", "1", "1", "1", "1", "1");
+  Node* two = myrbt.newNode();
+  two= myrbt.newJob(two, "2", "2", "2", "2", "2", "2", "2", "2");
+  Node* three = myrbt.newNode();
+  three= myrbt.newJob(three, "3", "3", "3", "3", "3", "3", "3", "3");
+  Node* four = myrbt.newNode();
+  four = myrbt.newJob(four, "4", "4", "4", "4", "4", "4", "4", "4");
+  Node* five = myrbt.newNode();
+  five = myrbt.newJob(five, "5", "5", "5", "5", "5", "5", "5", "5");
+  Node* six = myrbt.newNode();
+  six = myrbt.newJob(six, "6", "6", "6", "6", "6", "6", "6", "6");
+  Node* seven = myrbt.newNode();
+  seven = myrbt.newJob(seven, "7", "7", "7", "7", "7", "7", "7", "7");
+  Node* eight = myrbt.newNode();
+  eight = myrbt.newJob(eight, "8", "8", "8", "8", "8", "8", "8", "8");
+  
+  myrbt.insert(myrbt.getRoot(), one);
+  myrbt.insert(myrbt.getRoot(), two);
+  myrbt.insert(myrbt.getRoot(), three);
+  myrbt.insert(myrbt.getRoot(), four); 
+  myrbt.insert(myrbt.getRoot(), five);
+  myrbt.insert(myrbt.getRoot(), six); 
+  myrbt.insert(myrbt.getRoot(), seven);
+  myrbt.insert(myrbt.getRoot(), eight);
+
+  myrbt.save();
+}
+
+TEST_F(test_RBT, TestLoad){
+    RBT myrbt;
+  Node* one = myrbt.newNode();
+  one = myrbt.newJob(one, "1", "1", "1", "1", "1", "1", "1", "1");
+  Node* two = myrbt.newNode();
+  two= myrbt.newJob(two, "2", "2", "2", "2", "2", "2", "2", "2");
+  Node* three = myrbt.newNode();
+  three= myrbt.newJob(three, "3", "3", "3", "3", "3", "3", "3", "3");
+  Node* four = myrbt.newNode();
+  four = myrbt.newJob(four, "4", "4", "4", "4", "4", "4", "4", "4");
+  Node* five = myrbt.newNode();
+  five = myrbt.newJob(five, "5", "5", "5", "5", "5", "5", "5", "5");
+  Node* six = myrbt.newNode();
+  six = myrbt.newJob(six, "6", "6", "6", "6", "6", "6", "6", "6");
+  Node* seven = myrbt.newNode();
+  seven = myrbt.newJob(seven, "7", "7", "7", "7", "7", "7", "7", "7");
+  Node* eight = myrbt.newNode();
+  eight = myrbt.newJob(eight, "8", "8", "8", "8", "8", "8", "8", "8");
+  
+  myrbt.insert(myrbt.getRoot(), one);
+  myrbt.insert(myrbt.getRoot(), two);
+  myrbt.insert(myrbt.getRoot(), three);
+  myrbt.insert(myrbt.getRoot(), four); 
+  myrbt.insert(myrbt.getRoot(), five);
+  myrbt.insert(myrbt.getRoot(), six); 
+  myrbt.insert(myrbt.getRoot(), seven);
+  myrbt.insert(myrbt.getRoot(), eight);
+
+  myrbt.save();
+  RBT newrbt;
+  newrbt = newrbt.load(newrbt);
+  ASSERT_TRUE(newrbt.getRoot() -> jobNumber == 4);
+  ASSERT_TRUE(newrbt.getRoot() -> color == "BLACK");
+  ASSERT_TRUE(newrbt.getRoot() -> right -> jobNumber == 6);
+  ASSERT_TRUE(newrbt.getRoot() -> left -> jobNumber == 2);
+}

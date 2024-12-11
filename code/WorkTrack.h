@@ -8,6 +8,7 @@
 #include <map>
 #include <fstream> 
 #include <queue>
+#include <sstream>
 
 using namespace std;
 
@@ -15,9 +16,9 @@ struct Job {
     string customer;
     string date[3];
     string employee;
-    float cost;
-    bool paid;
-    float time;
+    string cost;
+    string paid;
+    string time;
 };
 
 struct Node {
@@ -28,6 +29,7 @@ struct Node {
     Node* parent;
     Job* job;
 };
+
 class RBT {
     public:
 
@@ -35,7 +37,7 @@ class RBT {
 
     void setRoot(Node* node);
 
-    Node* newJob(Node* node, string customer, string month, string day, string year, string employee, float cost, bool paid, float time);
+    Node* newJob(Node* node, string customer, string month, string day, string year, string employee, string cost, string paid, string time);
 
     Node* newNode();
 
@@ -47,7 +49,9 @@ class RBT {
 
     void save();
 
-    void load();
+    RBT load(RBT newrbt);
+
+    void clearSave();
 
     multimap<string, int> lookup;
 
@@ -104,8 +108,6 @@ class RBT {
     bool case5(Node* root, Node* node, Node* sibling);
 
     bool case6(Node* root, Node* node, Node* sibling);
-
-    string serialize(Node* root);
 
     string nodeToString(Node* node);
 };
