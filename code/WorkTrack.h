@@ -51,8 +51,6 @@ class RBT {
 
     RBT load(RBT newrbt);
 
-    void clearSave();
-
     multimap<string, int> lookup;
 
     int jobCount = 1;

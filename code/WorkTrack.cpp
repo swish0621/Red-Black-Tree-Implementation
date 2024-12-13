@@ -511,13 +511,6 @@ RBT RBT::load(RBT newrbt){
     return newrbt;
 }
 
-void clearSave(){
-    std::ofstream file("../data.txt", std::ios::trunc);
-    if (file.is_open()){
-        file.close();
-    }
-}
-
 string RBT::nodeToString(Node* node){
     string str = "";
     if (node == nullptr){
