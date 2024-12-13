@@ -8,7 +8,9 @@ Node* RBT::getRoot(){
 }
 
 void RBT::setRoot(Node* node){
+    if (node != nullptr){
     node -> color = "BLACK";
+    }
     root = node;
 }
 
@@ -216,6 +218,10 @@ void RBT::balance(Node* root, Node* node){
 
 void RBT::remove(Node* root, int jobNumber){
     Node* node = search(root, jobNumber);
+    if (node == getRoot() && node -> right == nullptr && node -> left == nullptr){
+        node = nullptr;
+        setRoot(node);
+    }
     if (node != nullptr){
         removeNode(root, node);
     }

@@ -112,6 +112,10 @@ TEST_F(test_RBT, TestRemove){
   ASSERT_TRUE(myrbt.getRoot() == nullptr);
   
   myrbt.insert(myrbt.getRoot(), one);
+  myrbt.remove(myrbt.getRoot(), myrbt.getRoot() -> jobNumber);
+  ASSERT_TRUE( myrbt.getRoot() == nullptr);
+
+  myrbt.insert(myrbt.getRoot(), one);
   myrbt.insert(myrbt.getRoot(), two);
   myrbt.insert(myrbt.getRoot(), three);
   myrbt.insert(myrbt.getRoot(), four); 
@@ -127,6 +131,9 @@ TEST_F(test_RBT, TestRemove){
   ASSERT_TRUE((myrbt.getRoot() -> right -> right -> jobNumber) == 8);
   ASSERT_TRUE((myrbt.getRoot() -> right -> left -> jobNumber) == 5);
   ASSERT_TRUE((five -> color == "BLACK") && (eight -> color == "BLACK"));
+
+  myrbt.remove(myrbt.getRoot(), myrbt.getRoot() -> jobNumber);
+  ASSERT_TRUE(myrbt.getRoot() -> jobNumber == 3);
 }
 
 TEST_F(test_RBT, TestNewJob){
@@ -218,5 +225,10 @@ TEST_F(test_RBT, TestLoad){
   ASSERT_TRUE(newrbt.getRoot() -> jobNumber == 4);
   ASSERT_TRUE(newrbt.getRoot() -> color == "BLACK");
   ASSERT_TRUE(newrbt.getRoot() -> right -> jobNumber == 6);
+  ASSERT_TRUE(newrbt.getRoot() -> right -> color == "RED");
   ASSERT_TRUE(newrbt.getRoot() -> left -> jobNumber == 2);
+  ASSERT_TRUE(newrbt.getRoot() -> left -> right -> jobNumber == 3);
+  ASSERT_TRUE(newrbt.getRoot() -> left -> right -> color == "RED");
+  ASSERT_TRUE(newrbt.getRoot() -> right -> right -> right -> jobNumber == 8);
+  ASSERT_TRUE(newrbt.getRoot() -> right -> right -> right -> color == "RED");
 }
