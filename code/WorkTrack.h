@@ -54,10 +54,9 @@ class RBT {
     multimap<string, int> lookup;
 
     int jobCount = 1;
+    
 
     private:
-
-    //vector<string> currentEmployees;
 
     Node* root = nullptr;   
     
