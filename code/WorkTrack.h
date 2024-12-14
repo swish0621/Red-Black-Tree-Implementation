@@ -54,7 +54,7 @@ class RBT {
     multimap<string, int> lookup;
 
     int jobCount = 1;
-    
+
 
     private:
 
