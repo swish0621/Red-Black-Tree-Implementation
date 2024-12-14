@@ -1,6 +1,8 @@
 # WorkTrack
 
-WorkTrack utlizes a red black tree structure to keep work projects organized that is able to be quickly searched and altered. Worktrack uses a command line interface that can be accessed by using the run app function. A red black tree is a type of self balancing tree that use color coding in order to maintain the balance with each node being designated either red or black.
+WorkTrack utlizes a red black tree structure to keep work projects organized that is able to be quickly searched and altered. Worktrack uses a command line interface that can be accessed by using the run app function. It tracks job details such as customer name, cost of job, employee assigned, pay status, due date, and time estimate. 
+
+A red black tree is a type of self balancing tree that use color coding in order to maintain the balance with each node being designated either red or black.
 
 invarients of a red black tree:
 
