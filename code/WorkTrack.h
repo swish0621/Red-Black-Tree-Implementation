@@ -55,9 +55,8 @@ class RBT {
 
     int jobCount = 1;
 
-    private:
 
-    //vector<string> currentEmployees;
+    private:
 
     Node* root = nullptr;   
     
